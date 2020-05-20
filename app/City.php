@@ -23,4 +23,12 @@ class City extends Model
      */
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
     
+    /**
+    * Relations
+    */
+    
+    public function stations()
+    {
+        return $this->hasMany(Station::class);
+    }
 }
