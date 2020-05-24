@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('stations', 'StationController@index');
+Route::get('station/{id}', 'StationController@show');
+Route::post('station', 'StationController@store');
+Route::put('station/{id}', 'StationController@update');
+Route::delete('station/{id}', 'StationController@delete');
+
+Route::post('city/stations', 'StationController@showByCity');
+Route::post('station/nearest', 'StationController@showNearest');
