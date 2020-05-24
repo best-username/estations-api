@@ -11,12 +11,34 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //disable foreign key check for this connection before running seeders
-	DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $this->setFKCheckOff();
         
         $this->call(CitiesTableSeeder::class);
         $this->call(StationsTableSeeder::class);
         
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $this->setFKCheckOn();
     }
+    
+    private function setFKCheckOff() {
+        switch(DB::getDriverName()) {
+            case 'mysql':
+                DB::statement('SET FOREIGN_KEY_CHECKS=0');
+                break;
+            case 'sqlite':
+                DB::statement('PRAGMA foreign_keys = OFF');
+                break;
+        }
+    }
+
+    private function setFKCheckOn() {
+        switch(DB::getDriverName()) {
+            case 'mysql':
+                DB::statement('SET FOREIGN_KEY_CHECKS=1');
+                break;
+            case 'sqlite':
+                DB::statement('PRAGMA foreign_keys = ON');
+                break;
+        }
+    }
+    
 }
